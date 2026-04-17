@@ -1115,13 +1115,24 @@
     /* ──────────────────────────────── SCROLL REVEAL ──────────────────────────────── */
     .reveal {
       opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
+      transform: translateY(20px);
+      transition: opacity 0.35s ease, transform 0.35s ease;
     }
 
     .reveal.visible {
       opacity: 1;
       transform: translateY(0);
+    }
+
+    /* On mobile: instant reveal — no waiting while scrolling */
+    @media (max-width: 768px) {
+      .reveal {
+        transition: opacity 0.25s ease, transform 0.25s ease;
+      }
+
+      .reveal[style*="transition-delay"] {
+        transition-delay: 0s !important;
+      }
     }
 
     /* ──────────────────────────────── HAMBURGER ──────────────────────────────── */
@@ -1903,13 +1914,15 @@
               <div class="grant-per-month">al mese · finanziato dall'UE</div>
             </div>
             <div class="grant-duration">
-              <div class="grant-duration-title">Durata del Programma · Fino a 6 mesi</div>
+              <div class="grant-duration-title">Durata del Programma · Fino a <span id="grantMaxMonths">6 mesi</span>
+              </div>
               <div class="duration-bar-wrap">
                 <div class="duration-bar"></div>
               </div>
             </div>
             <div class="total-earner">
-              <div class="label">💰 Contributo totale massimo (6 mesi)</div>
+              <div class="label" id="grantTotalLabel">💰 Contributo totale massimo (<span id="grantTotalMonths">6
+                  mesi</span>)</div>
               <div class="total" id="grantTotal"></div>
               <div class="sublabel">Pagato mensilmente · Nessun rimborso</div>
             </div>
@@ -2061,60 +2074,72 @@
 
     // ─── SCROLL REVEAL ───
     const reveals = document.querySelectorAll('.reveal');
+    const isMobile = window.innerWidth <= 768;
+    // On mobile: trigger immediately as element enters viewport (threshold 0, no negative margin)
+    // On desktop: keep a small offset so the animation triggers just before element is fully visible
     const revealObserver = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          revealObserver.unobserve(e.target); // stop observing once visible (performance)
+        }
+      });
+    }, {
+      threshold: isMobile ? 0 : 0.08,
+      rootMargin: isMobile ? '0px' : '0px 0px -30px 0px'
+    });
     reveals.forEach(r => revealObserver.observe(r));
 
     // ─── COUNTRIES DATA ───
+    // eu: true = EU/EEA/associated (max 6 months); eu: false = extra-EU (max 3 months)
     const countries = [
-      { name: 'Albania', amount: 600 },
-      { name: 'Armenia', amount: 850 },
-      { name: 'Austria', amount: 1000 },
-      { name: 'Belgium', amount: 900 },
-      { name: 'Bosnia-Herzegovina', amount: 650 },
-      { name: 'Bulgaria', amount: 650 },
-      { name: 'Canada', amount: 1050 },
-      { name: 'Croatia', amount: 800 },
-      { name: 'Cyprus', amount: 850 },
-      { name: 'Czech Republic', amount: 750 },
-      { name: 'Denmark', amount: 1200 },
-      { name: 'Estonia', amount: 800 },
-      { name: 'Finland', amount: 1000 },
-      { name: 'France', amount: 950 },
-      { name: 'Georgia', amount: 750 },
-      { name: 'Germany', amount: 900 },
-      { name: 'Greece', amount: 850 },
-      { name: 'Hungary', amount: 700 },
-      { name: 'Iceland', amount: 1000 },
-      { name: 'Ireland', amount: 1100 },
-      { name: 'Italy', amount: 1000 },
-      { name: 'Kosovo', amount: 650 },
-      { name: 'Latvia', amount: 700 },
-      { name: 'Liechtenstein', amount: 1200 },
-      { name: 'Lithuania', amount: 650 },
-      { name: 'Luxembourg', amount: 900 },
-      { name: 'Malta', amount: 750 },
-      { name: 'Moldova', amount: 700 },
-      { name: 'Montenegro', amount: 650 },
-      { name: 'Netherlands', amount: 950 },
-      { name: 'North Macedonia', amount: 650 },
-      { name: 'Norway', amount: 1200 },
-      { name: 'Poland', amount: 650 },
-      { name: 'Portugal', amount: 850 },
-      { name: 'Romania', amount: 650 },
-      { name: 'Serbia', amount: 650 },
-      { name: 'Singapore', amount: 1150 },
-      { name: 'Slovakia', amount: 700 },
-      { name: 'Slovenia', amount: 800 },
-      { name: 'Spain', amount: 900 },
-      { name: 'Sweden', amount: 1000 },
-      { name: 'Türkiye', amount: 800 },
-      { name: 'Ukraine', amount: 600 },
-      { name: 'United Kingdom', amount: 1100 },
-      { name: 'USA', amount: 1200 },
-      { name: 'EU Outermost Regions', amount: 1200 },
-      { name: 'Entrepreneurs w/ Disabilities', amount: 1200 },
+      { name: 'Albania', amount: 600, eu: false },
+      { name: 'Armenia', amount: 850, eu: false },
+      { name: 'Austria', amount: 1000, eu: true },
+      { name: 'Belgium', amount: 900, eu: true },
+      { name: 'Bosnia-Herzegovina', amount: 650, eu: false },
+      { name: 'Bulgaria', amount: 650, eu: true },
+      { name: 'Canada', amount: 1050, eu: false },
+      { name: 'Croatia', amount: 800, eu: true },
+      { name: 'Cyprus', amount: 850, eu: true },
+      { name: 'Czech Republic', amount: 750, eu: true },
+      { name: 'Denmark', amount: 1200, eu: true },
+      { name: 'Estonia', amount: 800, eu: true },
+      { name: 'Finland', amount: 1000, eu: true },
+      { name: 'France', amount: 950, eu: true },
+      { name: 'Georgia', amount: 750, eu: false },
+      { name: 'Germany', amount: 900, eu: true },
+      { name: 'Greece', amount: 850, eu: true },
+      { name: 'Hungary', amount: 700, eu: true },
+      { name: 'Iceland', amount: 1000, eu: true },
+      { name: 'Ireland', amount: 1100, eu: true },
+      { name: 'Italy', amount: 1000, eu: true },
+      { name: 'Kosovo', amount: 650, eu: false },
+      { name: 'Latvia', amount: 700, eu: true },
+      { name: 'Liechtenstein', amount: 1200, eu: true },
+      { name: 'Lithuania', amount: 650, eu: true },
+      { name: 'Luxembourg', amount: 900, eu: true },
+      { name: 'Malta', amount: 750, eu: true },
+      { name: 'Moldova', amount: 700, eu: false },
+      { name: 'Montenegro', amount: 650, eu: false },
+      { name: 'Netherlands', amount: 950, eu: true },
+      { name: 'North Macedonia', amount: 650, eu: false },
+      { name: 'Norway', amount: 1200, eu: true },
+      { name: 'Poland', amount: 650, eu: true },
+      { name: 'Portugal', amount: 850, eu: true },
+      { name: 'Romania', amount: 650, eu: true },
+      { name: 'Serbia', amount: 650, eu: false },
+      { name: 'Singapore', amount: 1150, eu: false },
+      { name: 'Slovakia', amount: 700, eu: true },
+      { name: 'Slovenia', amount: 800, eu: true },
+      { name: 'Spain', amount: 900, eu: true },
+      { name: 'Sweden', amount: 1000, eu: true },
+      { name: 'Türkiye', amount: 800, eu: false },
+      { name: 'Ukraine', amount: 600, eu: false },
+      { name: 'United Kingdom', amount: 1100, eu: false },
+      { name: 'USA', amount: 1200, eu: false },
+      { name: 'EU Outermost Regions', amount: 1200, eu: true },
+      { name: 'Entrepreneurs w/ Disabilities', amount: 1200, eu: true },
     ].sort((a, b) => b.amount - a.amount);
 
     function getTier(amount) {
@@ -2144,6 +2169,10 @@
       document.getElementById('grantPlaceholder').style.display = 'none';
       document.getElementById('grantInfo').style.display = 'block';
       document.getElementById('grantCountryName').textContent = c.name;
+
+      // Max months: EU/EEA = 6, non-EU/extra-European = 3
+      const maxMonths = c.eu ? 6 : 3;
+
       const amountEl = document.getElementById('grantAmount');
       amountEl.textContent = '€0';
       let cur = 0;
@@ -2153,7 +2182,17 @@
         amountEl.textContent = '€' + Math.floor(cur).toLocaleString();
         if (cur >= c.amount) clearInterval(t);
       }, 20);
-      document.getElementById('grantTotal').textContent = '€' + (c.amount * 6).toLocaleString();
+
+      document.getElementById('grantTotal').textContent = '€' + (c.amount * maxMonths).toLocaleString();
+
+      // Show/update max months indicator if element exists
+      const maxEl = document.getElementById('grantMaxMonths');
+      if (maxEl) {
+        maxEl.textContent = maxMonths + ' mesi';
+        maxEl.title = c.eu ? 'Paese UE/SEE — fino a 6 mesi' : 'Paese extra-UE — massimo 3 mesi';
+      }
+      const totalMonthsEl = document.getElementById('grantTotalMonths');
+      if (totalMonthsEl) totalMonthsEl.textContent = maxMonths + ' mesi';
     }
 
     // ─── FAQ ───
