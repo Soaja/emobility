@@ -2905,72 +2905,43 @@
           </form>
         </div>
 
-        <!-- ── STEP 2: CALENDAR ── -->
+        <!-- ── STEP 2: GOOGLE CALENDAR BOOKING ── -->
         <div id="step2" style="display:none;">
           <h2
             style="font-family:'Space Grotesk',sans-serif; font-size:26px; font-weight:800; margin-bottom:6px; line-height:1.2;">
-            Scegli la tua data 📅
+            Prenota il tuo colloquio 📅
           </h2>
-          <p style="color:#8BA8C8; font-size:14px; margin-bottom:24px; line-height:1.6;">
-            Seleziona il giorno e l'orario per il tuo colloquio introduttivo con il nostro team.
+          <p style="color:#8BA8C8; font-size:14px; margin-bottom:20px; line-height:1.6;">
+            Scegli data e orario direttamente qui sotto. Riceverai una <strong style="color:#fff;">conferma via email</strong> in automatico dopo la prenotazione.
           </p>
 
-          <!-- Calendar widget -->
-          <div style="background:#141d2e; border:1px solid rgba(255,255,255,0.08); border-radius:16px; padding:20px;">
-            <!-- Month nav -->
-            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:20px;">
-              <button id="calPrev"
-                style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); border-radius:8px; width:36px; height:36px; cursor:pointer; color:#fff; font-size:16px; display:flex; align-items:center; justify-content:center;">‹</button>
-              <div id="calMonthLabel" style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:16px;">
-              </div>
-              <button id="calNext"
-                style="background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); border-radius:8px; width:36px; height:36px; cursor:pointer; color:#fff; font-size:16px; display:flex; align-items:center; justify-content:center;">›</button>
-            </div>
-
-            <!-- Day labels -->
-            <div style="display:grid; grid-template-columns:repeat(7,1fr); gap:4px; margin-bottom:6px;">
-              <div style="text-align:center; font-size:11px; color:#8BA8C8; font-weight:600; padding:4px;">Lu</div>
-              <div style="text-align:center; font-size:11px; color:#8BA8C8; font-weight:600; padding:4px;">Ma</div>
-              <div style="text-align:center; font-size:11px; color:#8BA8C8; font-weight:600; padding:4px;">Me</div>
-              <div style="text-align:center; font-size:11px; color:#8BA8C8; font-weight:600; padding:4px;">Gi</div>
-              <div style="text-align:center; font-size:11px; color:#8BA8C8; font-weight:600; padding:4px;">Ve</div>
-              <div style="text-align:center; font-size:11px; color:#8BA8C8; font-weight:600; padding:4px;">Sa</div>
-              <div style="text-align:center; font-size:11px; color:#8BA8C8; font-weight:600; padding:4px;">Do</div>
-            </div>
-
-            <!-- Days grid -->
-            <div id="calGrid" style="display:grid; grid-template-columns:repeat(7,1fr); gap:4px;"></div>
+          <!-- Real Google Calendar Appointment Scheduling -->
+          <div style="border-radius:16px; overflow:hidden; border:1px solid rgba(255,255,255,0.1); background:#fff;">
+            <iframe
+              src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ0QhnnNhCCJR-HYuOgEG5Tlv_n33uBhPzaASEzYJ06m0uAGncwrtCJku6eucKmUGjzOxhbxdKxS?gv=true"
+              style="width:100%; height:620px; border:none; display:block;"
+              title="Prenota il tuo colloquio introduttivo"
+              loading="lazy"
+              allow="camera; microphone">
+            </iframe>
           </div>
 
-          <!-- Time slots -->
-          <div id="timeSlotsWrap" style="display:none; margin-top:20px;">
-            <div
-              style="font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:14px; margin-bottom:12px; color:#8BA8C8;"
-              id="timeSlotTitle"></div>
-            <div id="timeSlots" style="display:flex; flex-wrap:wrap; gap:8px;"></div>
+          <div style="margin-top:16px; padding:14px 18px; background:rgba(109,217,107,0.07); border:1px solid rgba(109,217,107,0.2); border-radius:12px; font-size:13px; color:#8BA8C8; line-height:1.6;">
+            ✅ <strong style="color:#fff;">Come funziona:</strong> Seleziona una data disponibile nel calendario, inserisci i tuoi dati e clicca <em>Prenota</em>. Riceverai subito una email di conferma con tutti i dettagli.
           </div>
 
-          <!-- Selected summary -->
-          <div id="selectedSummary"
-            style="display:none; margin-top:20px; background:rgba(109,217,107,0.07); border:1px solid rgba(109,217,107,0.25); border-radius:12px; padding:16px;">
-            <div style="font-size:13px; color:#8BA8C8; margin-bottom:4px;">Hai selezionato:</div>
-            <div id="selectedText"
-              style="font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:16px; color:var(--primary);">
-            </div>
-          </div>
-
-          <div style="display:flex; gap:12px; margin-top:24px;">
+          <div style="display:flex; gap:12px; margin-top:20px;">
             <button id="calBack" style="
               flex:1; background:rgba(255,255,255,0.06); color:#fff;
               border:1px solid rgba(255,255,255,0.12); border-radius:50px; padding:14px;
               font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:15px; cursor:pointer;
             ">← Indietro</button>
-            <button id="calConfirm" disabled style="
-              flex:2; background:rgba(109,217,107,0.3); color:rgba(255,255,255,0.4);
+            <button id="calConfirm" style="
+              flex:2; background:var(--primary); color:#0f1523;
               border:none; border-radius:50px; padding:14px;
-              font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:15px; cursor:not-allowed;
+              font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:15px; cursor:pointer;
               transition:all 0.3s;
-            ">Conferma e Candidati →</button>
+            ">✓ Ho prenotato!</button>
           </div>
         </div>
 
@@ -2978,12 +2949,15 @@
         <div id="step3" style="display:none; text-align:center; padding:20px 0 12px;">
           <div style="font-size:64px; margin-bottom:16px;">🎉</div>
           <h2 style="font-family:'Space Grotesk',sans-serif; font-size:24px; font-weight:800; margin-bottom:10px;">
-            Perfetto! Ti stiamo reindirizzando...</h2>
+            Prenotazione confermata!</h2>
           <p style="color:#8BA8C8; font-size:14px; line-height:1.6;" id="successText"></p>
+          <div style="margin-top:20px; padding:16px 20px; background:rgba(109,217,107,0.08); border:1px solid rgba(109,217,107,0.25); border-radius:14px; font-size:14px; color:#8BA8C8; text-align:left; line-height:1.7;">
+            📬 <strong style="color:#fff;">Controlla la tua email</strong> — hai ricevuto la conferma del colloquio con data, orario e link per partecipare.
+          </div>
           <div style="margin-top:24px;">
             <div style="height:4px; background:rgba(255,255,255,0.08); border-radius:50px; overflow:hidden;">
               <div id="redirectBar"
-                style="height:100%; width:0%; background:var(--primary); border-radius:50px; transition:width 3s linear;">
+                style="height:100%; width:0%; background:var(--primary); border-radius:50px; transition:width 4s linear;">
               </div>
             </div>
           </div>
@@ -3167,9 +3141,13 @@
     document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
     // ─── Intercept ALL candidati buttons ───
-    document.querySelectorAll('a[href*="erasmus-entrepreneurs.info/registration"], a[href*="erasmus-entrepreneurs.info/registration"]').forEach(btn => {
+    document.querySelectorAll('a[href*="erasmus-entrepreneurs.info/registration"]').forEach(btn => {
       btn.addEventListener('click', e => {
         e.preventDefault();
+        // Close quiz if it was open (quiz → candidatura flow)
+        if (typeof closeQuiz === 'function' && document.getElementById('quizModal').classList.contains('qVisible')) {
+          closeQuiz();
+        }
         openModal();
       });
     });
@@ -3182,12 +3160,6 @@
       prog1.style.background = n >= 1 ? 'var(--primary)' : 'rgba(255,255,255,0.1)';
       prog2.style.background = n >= 2 ? 'var(--primary)' : 'rgba(255,255,255,0.1)';
       stepLabel.textContent = n === 3 ? 'Completato!' : `Passo ${n} di 2`;
-      if (n === 2) {
-        const today = new Date();
-        calYear = today.getFullYear();
-        calMonth = today.getMonth();
-        renderCalendar();
-      }
       document.getElementById('appModalBox').scrollTop = 0;
     }
 
@@ -3221,151 +3193,24 @@
 
     document.getElementById('calBack').addEventListener('click', () => showStep(1));
 
-    // ─── Calendar ───
-    const MONTHS_IT = ['Gennaio', 'Febbraio', 'Marzo', 'Aprile', 'Maggio', 'Giugno', 'Luglio', 'Agosto', 'Settembre', 'Ottobre', 'Novembre', 'Dicembre'];
-    const TIME_SLOTS = ['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:30'];
 
-    function renderCalendar() {
-      document.getElementById('calMonthLabel').textContent = MONTHS_IT[calMonth] + ' ' + calYear;
-      const grid = document.getElementById('calGrid');
-      grid.innerHTML = '';
-
-      const today = new Date(); today.setHours(0, 0, 0, 0);
-      const firstDay = new Date(calYear, calMonth, 1);
-      // Mon=0 offset
-      let startDow = firstDay.getDay(); // 0=Sun
-      startDow = (startDow === 0) ? 6 : startDow - 1; // shift so Mon=0
-      const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
-
-      // empty cells before day 1
-      for (let i = 0; i < startDow; i++) {
-        const empty = document.createElement('div');
-        empty.className = 'cal-day cal-empty';
-        grid.appendChild(empty);
-      }
-
-      for (let d = 1; d <= daysInMonth; d++) {
-        const btn = document.createElement('div');
-        const date = new Date(calYear, calMonth, d);
-        const isWeekend = date.getDay() === 0 || date.getDay() === 6;
-        const isPast = date < today;
-        const isSel = selDate && date.toDateString() === selDate.toDateString();
-        const isToday = date.toDateString() === today.toDateString();
-
-        btn.className = 'cal-day' +
-          (isWeekend ? ' cal-weekend' : '') +
-          (isPast ? ' cal-disabled' : '') +
-          (isSel ? ' cal-selected' : '') +
-          (isToday ? ' cal-today' : '');
-        btn.textContent = d;
-
-        if (!isPast) {
-          btn.addEventListener('click', () => {
-            selDate = date; selTime = null;
-            renderCalendar();
-            renderTimeSlots();
-          });
-        }
-        grid.appendChild(btn);
-      }
-
-      // disable prev if current month
-      const now = new Date();
-      document.getElementById('calPrev').disabled = (calYear === now.getFullYear() && calMonth === now.getMonth());
-      document.getElementById('calPrev').style.opacity = document.getElementById('calPrev').disabled ? '0.3' : '1';
-    }
-
-    function renderTimeSlots() {
-      const wrap = document.getElementById('timeSlotsWrap');
-      const slots = document.getElementById('timeSlots');
-      const title = document.getElementById('timeSlotTitle');
-      if (!selDate) { wrap.style.display = 'none'; return; }
-
-      // Build date label
-      const dayNames = ['domenica', 'lunedì', 'martedì', 'mercoledì', 'giovedì', 'venerdì', 'sabato'];
-      title.textContent = dayNames[selDate.getDay()].charAt(0).toUpperCase() + dayNames[selDate.getDay()].slice(1) +
-        ' ' + selDate.getDate() + ' ' + MONTHS_IT[selDate.getMonth()];
-
-      slots.innerHTML = '';
-      TIME_SLOTS.forEach(t => {
-        const el = document.createElement('div');
-        el.className = 'time-slot' + (selTime === t ? ' selected' : '');
-        el.textContent = t;
-        el.addEventListener('click', () => {
-          selTime = t;
-          renderTimeSlots();
-          updateSelectedSummary();
-          updateConfirmBtn();
-        });
-        slots.appendChild(el);
-      });
-      wrap.style.display = 'block';
-    }
-
-    function updateSelectedSummary() {
-      const sum = document.getElementById('selectedSummary');
-      const txt = document.getElementById('selectedText');
-      if (selDate && selTime) {
-        const dn = ['domenica', 'lunedì', 'martedì', 'mercoledì', 'giovedì', 'venerdì', 'sabato'];
-        txt.textContent = '📅 ' + dn[selDate.getDay()].charAt(0).toUpperCase() + dn[selDate.getDay()].slice(1) +
-          ' ' + selDate.getDate() + ' ' + MONTHS_IT[selDate.getMonth()] + ' ' + selDate.getFullYear() +
-          ' alle ' + selTime;
-        sum.style.display = 'block';
-      } else {
-        sum.style.display = 'none';
-      }
-    }
-
-    function updateConfirmBtn() {
-      const btn = document.getElementById('calConfirm');
-      if (selDate && selTime) {
-        btn.disabled = false;
-        btn.style.background = 'var(--primary)';
-        btn.style.color = '#0f1523';
-        btn.style.cursor = 'pointer';
-      } else {
-        btn.disabled = true;
-        btn.style.background = 'rgba(109,217,107,0.2)';
-        btn.style.color = 'rgba(255,255,255,0.3)';
-        btn.style.cursor = 'not-allowed';
-      }
-    }
-
-    document.getElementById('calPrev').addEventListener('click', () => {
-      if (document.getElementById('calPrev').disabled) return;
-      calMonth--; if (calMonth < 0) { calMonth = 11; calYear--; }
-      renderCalendar();
-    });
-    document.getElementById('calNext').addEventListener('click', () => {
-      calMonth++; if (calMonth > 11) { calMonth = 0; calYear++; }
-      renderCalendar();
-    });
-
-    // ─── Confirm & redirect ───
+    // ─── Confirm (Google Calendar handles the actual booking & email) ───
     document.getElementById('calConfirm').addEventListener('click', () => {
-      if (!selDate || !selTime) return;
+      const nome = document.getElementById('fNome').value.trim() || 'candidato';
       showStep(3);
-      // Build params to pass to registration
-      const nome = document.getElementById('fNome').value.trim();
-      const cognome = document.getElementById('fCognome').value.trim();
-      const email = document.getElementById('fEmail').value.trim();
-      const tel = document.getElementById('fTelefono').value.trim();
-      const nascita = document.getElementById('fNascita').value;
 
-      const dn = ['domenica', 'lunedì', 'martedì', 'mercoledì', 'giovedì', 'venerdì', 'sabato'];
       document.getElementById('successText').innerHTML =
-        `Ciao <strong>${nome}</strong>! Hai scelto <strong>${dn[selDate.getDay()]} ${selDate.getDate()} ${MONTHS_IT[selDate.getMonth()]} alle ${selTime}</strong>.
-        <br/><br/>Verrai ora reindirizzato al portale ufficiale Erasmus per completare la candidatura.`;
+        `Ciao <strong>${nome}</strong>! 🚀<br/><br/>Il tuo colloquio è stato <strong>prenotato con successo</strong> tramite Google Calendar. Controlla la tua casella email per la conferma con tutti i dettagli del colloquio.`;
 
-      // Animate redirect bar then open registration
+      // Animate progress bar
       setTimeout(() => {
         document.getElementById('redirectBar').style.width = '100%';
       }, 100);
+
+      // Auto-close after 5s
       setTimeout(() => {
-        const params = new URLSearchParams({ fname: nome, lname: cognome, email, phone: tel, dob: nascita });
-        window.open('https://erasmus-entrepreneurs.info/registration?' + params.toString(), '_blank');
         closeModal();
-      }, 3200);
+      }, 5000);
     });
   </script>
 </body>
