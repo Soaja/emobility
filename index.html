@@ -2199,7 +2199,7 @@
     const faqs = [
       {
         q: 'Chi può candidarsi come Nuovo Imprenditore?',
-        a: 'Chiunque abbia avviato un\'attività negli ultimi 3 anni, o stia seriamente pianificando di farlo. Non è richiesto un fatturato minimo o un finanziamento iniziale: contano la tua motivazione e la tua idea.'
+        a: 'Il programma è aperto a chiunque abbia almeno 18 anni e rientri in una di queste categorie:\n\n• Studenti\n• Disoccupati\n• Inoccupati\n• Titolari di Partita IVA o soci di una società costituita da meno di 3 anni\n\nNon è richiesto un fatturato minimo o un finanziamento iniziale: contano la tua motivazione e la tua idea imprenditoriale.'
       },
       {
         q: 'Il contributo UE è reale? Va restituito?',
@@ -2207,7 +2207,11 @@
       },
       {
         q: 'Quanto dura lo scambio?',
-        a: 'Da 1 a 6 mesi. Tu e il tuo Imprenditore Ospitante concordate la durata. Soggiorni più lunghi significano più apprendimento e più fondi.'
+        a: 'La durata dipende dal paese di destinazione:\n\n• Paesi UE / SEE: da 1 a 6 mesi\n• Paesi extra-UE: da 1 a 3 mesi\n\nTu e il tuo Imprenditore Ospitante concordate la durata. Soggiorni più lunghi significano più apprendimento e più fondi ricevuti.'
+      },
+      {
+        q: 'Chi mi ospiterà?',
+        a: 'Abbiamo un lunghissimo elenco di imprese in tutti i paesi partecipanti al programma. Puoi anche individuare tu stesso un\'azienda e comunicarcelo — l\'importante è che non ci abbia mai preso parte in qualsiasi forma in precedenza.'
       },
       {
         q: 'Devo parlare la lingua locale?',
@@ -2217,10 +2221,7 @@
         q: 'Quali settori copre il programma?',
         a: 'Tutti. Tecnologia, food, moda, edilizia, consulenza, industrie creative: purché il tuo host sia un imprenditore affermato e tu abbia una vera idea di business, sei idoneo.'
       },
-      {
-        q: 'Quanto tempo ci vuole per essere approvati?',
-        a: 'Il processo richiede solitamente dai 2 ai 6 mesi dalla candidatura alla partenza, a seconda della velocità con cui vieni abbinato e della conferma da entrambe le parti. Prima ti candidi, prima parti.'
-      },
+
       {
         q: 'Posso lavorare per l\'imprenditore ospitante?',
         a: 'Lavori al loro fianco, non come dipendente retribuito, ma come imprenditore collaboratore. L\'obiettivo è imparare e sviluppare la tua attività, non fare il loro lavoro. È uno scambio bilaterale.'
@@ -2242,7 +2243,7 @@
             <polyline points="6 9 12 15 18 9"/>
           </svg>
         </div>
-        <div class="faq-a">${f.a}</div>
+        <div class="faq-a">${f.a.replace(/\n/g, '<br>')}</div>
       `;
       const q = item.querySelector('.faq-q');
       q.addEventListener('click', () => {
